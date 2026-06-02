@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dragon SHOP</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================
+   RESET & CHUẨN HÓA NỀN TẢNG
+   ========================================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#0a0a0a;
+    color:white;
+    overflow-x:hidden;
+    min-height: 100vh;
+}
+
+/* BACKGROUND CỐ ĐỊNH */
+body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image:url('https://i.postimg.cc/Y4Zg6yqH/0c6c42bca83df6385bb24024654b97ad.jpg');
+    background-size:cover;
+    background-position:center;
+    filter: brightness(30%) contrast(110%) saturate(110%);
+    transform:scale(1.02);
+    z-index:-2;
+}
+
+body::after{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    z-index:-1;
+}
+
+/* ==========================================
+   MÀN HÌNH ĐĂNG NHẬP
+   ========================================== */
+#loginPage{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.login-box{
+    width:100%;
+    max-width:400px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-radius:24px;
+    padding:40px 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.logo{
+    text-align:center;
+    font-size:35px;
+    font-weight:700;
+    margin-bottom:10px;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle{
+    text-align:center;
+    color:#ccc;
+    font-size: 14px;
+    margin-bottom:35px;
+}
+
+.input-box{
+    margin-bottom:20px;
+}
+
+.input-box input{
+    width:100%;
+    padding:15px;
+    border:1px solid rgba(255,255,255,0.1);
+    outline:none;
+    border-radius:12px;
+    background:rgba(0,0,0,0.4);
+    color:white;
+    font-size:15px;
+    transition: 0.3s;
+}
+
+.input-box input:focus{
+    border-color: #00c6ff;
+}
+
+.btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(45deg,#00c6ff,#0072ff);
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
+}
+
+/* ==========================================
+   GIAO DIỆN CỬA HÀNG CHÍNH (SHOPPING)
+   ========================================== */
+#shopPage{
+    display:block; 
+    padding:60px 20px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.shop-title{
+    text-align:center;
+    font-size:32px;
+    font-weight: 700;
+    margin-bottom:40px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.shop-title::after{
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: #00c6ff;
+    border-radius: 2px;
+}
+
+/* Cấu trúc Lưới sản phẩm */
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-radius:20px;
+    overflow:hidden;
+    transition:0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    border-color: rgba(0, 198, 255, 0.4);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.card img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+}
+
+.card-content{
+    padding:24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-content h2{
+    margin-bottom:10px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.card-content p{
+    color:#b3b3b3;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.price{
+    display:block;
+    margin-bottom:20px;
+    color:#00c6ff;
+    font-size:26px;
+    font-weight:700;
+}
+
+.buy-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(45deg,#00c6ff,#0072ff);
+    color:white;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition: 0.2s;
+}
+
+.buy-btn:hover{
+    opacity: 0.95;
+    box-shadow: 0 4px 12px rgba(0, 114, 255, 0.3);
+}
+
+/* KHU VỰC THANH TOÁN QR */
+.payment-box{
+    margin-top:60px;
+}
+
+.payment-card{
+    width: 100%;
+    max-width:450px;
+    margin:auto;
+    background:rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius:24px;
+    padding:25px;
+    text-align:center;
+}
+
+/* CSS Cho vùng tạo mã QR Nạp Tiền Thật */
+.qr-container {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    margin: 15px auto;
+    width: 230px;
+    height: 230px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.qr-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* HỘP THÔNG BÁO GÓC MÀN HÌNH */
+#notifyList {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 290px;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+}
+
+.notify-item{
+    padding:12px;
+    border-radius:10px;
+    background:rgba(10, 10, 10, 0.9);
+    border-left: 4px solid #00c6ff;
+    font-size:12px;
+    line-height:1.5;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================
+   CẤU HÌNH TIỆN ÍCH PC / MOBILE NAVBAR
+   ========================================== */
+.widget-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 999;
+}
+
+.widget-balance {
+    background:rgba(10, 10, 10, 0.85);
+    padding:12px 20px;
+    border-radius:14px;
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+    border:1px solid rgba(0, 198, 255, 0.3);
+    font-weight:600;
+    font-size: 15px;
+    box-shadow:0 4px 15px rgba(0,198,255,0.15);
+    text-align: right;
+}
+
+.widget-balance span {
+    color: #00c6ff;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* Nút cuộn nhanh xuống cổng nạp */
+.deposit-nav-btn {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 12px;
+    background: #0072ff;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 14px;
+    box-shadow: 0 4px 10px rgba(0, 114, 255, 0.3);
+}
+.deposit-nav-btn:hover {
+    background: #00c6ff;
+}
+
+/* ==========================================
+   TỐI ƯU HÓA RESPONSIVE CHO ĐIỆN THOẠI (MOBILE)
+   ========================================== */
+@media(max-width:992px){
+    .widget-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        flex-direction: row;
+        background: rgba(10, 10, 10, 0.95);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding: 10px 15px;
+        justify-content: space-between;
+        align-items: center;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .widget-balance {
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        font-size: 14px;
+    }
+    
+    .widget-balance span {
+        font-size: 16px;
+    }
+
+    .deposit-nav-btn {
+        width: 110px;
+        height: 34px;
+        font-size: 13px;
+    }
+
+    #shopPage{
+        padding-top: 80px;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .shop-title{
+        font-size:24px;
+        margin-bottom:30px;
+    }
+
+    .products{
+        grid-template-columns: 1fr;
+        gap:20px;
+    }
+
+    .card img{
+        height: 180px;
+    }
+
+    .card-content {
+        padding: 16px;
+    }
+
+    #notifyList {
+        display: none;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar{
+    width:6px;
+}
+::-webkit-scrollbar-thumb{
+    background:#00c6ff;
+    border-radius:10px;
+}
+.login-box{
+    position: relative;
+}
+
+.close-btn{
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close-btn:hover{
+    color: #00d4ff;
+    transform: scale(1.2);
+}
+
+/* Purchase Modal */
+.purchase-modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:99999}
+.purchase-box{width:95%;max-width:500px;background:#081018;border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:20px}
+.purchase-option{padding:12px;border-radius:12px;background:#1ad1ff;color:#000;font-weight:600;display:inline-block;margin:10px 0}
+</style>
+</head>
+<body>
+
+<div id="notifyList"></div>
+<div class="purchase-modal" id="purchaseModal">
+<div class="purchase-box">
+<h2>Xác nhận mua hàng</h2>
+<p>CapCut Pro</p>
+<div class="purchase-option">1 tháng 5 thiết bị ( Mobile,PC )</div>
+<h3>Đơn giá: 50.000đ</h3>
+<button class="btn" id="payNowBtn">Thanh toán</button>
+<button class="btn" style="margin-top:10px;background:#222" onclick="document.getElementById('purchaseModal').style.display='none'">Huỷ</button>
+</div></div>
+
+
+<div id="loginPage" style="display:none;">
+    <div class="login-box">
+    <span class="close-btn" onclick="closeLogin()">✕</span>
+
+    <div class="logo">Dragon SHOP</div>
+    <div class="subtitle">Hệ Thống Mua Bán Tài Khoản Premium</div>
+
+        <form id="loginForm">
+            <div class="input-box">
+                <input type="text" id="username" placeholder="Tên đăng nhập (viết liền không dấu)" required autocomplete="off">
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="Mật khẩu" required>
+            </div>
+            <button type="submit" class="btn" id="submitBtn">Đăng Nhập</button>
+        </form>
+    </div>
+</div>
+
+<div id="shopPage">
+
+    <div class="widget-container">
+        <div class="widget-balance">
+            💰 Số dư: <span id="balanceText">0đ</span>
+        </div>
+        <button class="deposit-nav-btn" onclick="document.getElementById('paymentArea').scrollIntoView({behavior: 'smooth'});">Nạp Tiền</button>
+        <button id="loginCircleBtn" class="login-circle">🥷</button>
+    </div>
+
+    <h1 class="shop-title">Các Tài Khoản Premium</h1>
+    <div class="products">
+        <div class="card">
+            <img src="https://i.postimg.cc/JnK93Zjh/IMG-4172.jpg">
+            <div class="card-content">
+                <h2>CapCut Pro</h2>
+                <p>Tài khoản Pro VIP hàng tháng.</p>
+                <span class="price">50.000đ</span>
+                <button class="buy-btn">Mua Ngay</button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="payment-box" id="paymentArea">
+        <h1 class="shop-title">Nạp Tiền Vào Tài Khoản</h1>
+        <div class="payment-card">
+            
+            <div style="margin-bottom: 15px; text-align: left;">
+                <label style="font-size: 13px; color: #00c6ff; font-weight: 600;">Bước 1: Nhập số tiền muốn nạp (đ)</label>
+                <input type="number" id="inputMoney" placeholder="Ví dụ: 50000" style="width:100%; height:42px; padding:0 12px; border:1px solid rgba(255,255,255,0.2); border-radius:10px; margin-top:6px; background:#161616; color:white; outline:none; font-size:15px;">
+            </div>
+
+            <p style="font-size:13px; color:#aaa; text-align:left; margin-bottom:10px;">Bước 2: Mở App Ngân hàng/Momo quét mã QR dưới đây:</p>
+
+            <div class="qr-container">
+                <img id="qrImage" src="https://api.vietqr.io/image/MBBank-0378299218-compact2.jpg?accountName=PHAM%20DINH%20LONG" alt="QR Code">
+            </div>
+
+            <div style="text-align:left; font-size:14px; background:rgba(0,0,0,0.3); padding:12px; border-radius:10px; margin-bottom:15px;">
+                <p><b>Ngân hàng:</b> MB BANK</p>
+                <p><b>Số tài khoản:</b> 0378299218</p>
+                <p><b>Chủ tài khoản:</b> PHAM DINH LONG</p>
+                <p><b>Nội dung ghi chú:</b> <span id="qrMemo" style="color:#00c6ff; font-weight:700; background:rgba(0,198,255,0.1); padding:2px 6px; border-radius:4px;">DRAGON</span></p>
+            </div>
+
+            <p style="font-size:12px; color:#ff9f43; text-align:left; margin-bottom:12px; line-height:1.4;">⚠️ Lưu ý: Bạn phải quét đúng mã QR hoặc chuyển đúng "Nội dung ghi chú" bên trên thì mới được duyệt cộng số dư.</p>
+
+            <button id="confirmTransferBtn" class="btn" style="background:linear-gradient(45deg, #2ecc71, #27ae60);">Bước 3: Xác Nhận Đã Chuyển Khoản</button>
+        </div>
+    </div>
+
+    <div style="margin-top:60px;">
+        <h1 class="shop-title">Lịch Sử Tài Khoản Đã Mua</h1>
+        <div class="products" id="accountList">
+            </div>
+    </div>
+
+</div>
+
+<script>
+const ADMIN_ZALO_LINK = "https://zalo.me/0378299218"; // Thay số điện thoại Zalo của bạn vào đây
+</script>
+
+<script>
+const loginForm = document.getElementById('loginForm');
+const loginPage = document.getElementById('loginPage');
+const shopPage = document.getElementById('shopPage');
+const submitBtn = document.getElementById('submitBtn');
+const accountList = document.getElementById('accountList');
+const notifyList = document.getElementById('notifyList');
+const inputMoney = document.getElementById('inputMoney');
+const qrImage = document.getElementById('qrImage');
+const qrMemo = document.getElementById('qrMemo');
+const confirmTransferBtn = document.getElementById('confirmTransferBtn');
+
+let currentUser = "Khách";
+let balance = parseInt(localStorage.getItem('shop_balance')) || 0;
+
+function updateBalance(){
+    document.getElementById('balanceText').innerText = balance.toLocaleString() + 'đ';
+    localStorage.setItem('shop_balance', balance);
+}
+
+function addNotify(text){
+    const item = document.createElement('div');
+    item.className = 'notify-item';
+    item.innerHTML = text;
+    notifyList.prepend(item);
+    setTimeout(() => { item.remove(); }, 5000); 
+}
+
+/* =========================================
+   CƠ CHẾ TẠO MÃ QR NẠP TIỀN THẬT TỰ ĐỘNG
+   ========================================= */
+function generateQR() {
+    const amount = parseInt(inputMoney.value) || 0;
+    // Tạo nội dung chuyển khoản chuẩn viết liền không dấu dạng: DRAGON_TENUSER
+    const memo = `DRAGON ${currentUser.toUpperCase().replace(/[^A-Z0-9]/g, "")}`;
+    qrMemo.innerText = memo;
+
+    // Sử dụng API VietQR để tự động gán Số tiền và Nội dung lời nhắn vào mã QR ngân hàng của bạn
+    if(amount > 0) {
+        qrImage.src = `https://api.vietqr.io/image/MBBank-0378299218-compact2.jpg?amount=${amount}&addInfo=${encodeURIComponent(memo)}&accountName=PHAM%20DINH%20LONG`;
+    } else {
+        qrImage.src = `https://api.vietqr.io/image/MBBank-0378299218-compact2.jpg?accountName=PHAM%20DINH%20LONG&addInfo=${encodeURIComponent(memo)}`;
+    }
+}
+
+// Bất cứ khi nào khách gõ số tiền, hình ảnh QR sẽ tự thay đổi theo số tiền đó
+inputMoney.addEventListener('input', generateQR);
+
+/* XỬ LÝ KHI KHÁCH BẤM "XÁC NHẬN ĐÃ CHUYỂN KHOẢN" */
+confirmTransferBtn.addEventListener('click', () => {
+    const amount = parseInt(inputMoney.value) || 0;
+    if(amount <= 0) {
+        alert("❌ Vui lòng điền số tiền bạn vừa chuyển khoản trước!");
+        return;
+    }
+
+    const memo = qrMemo.innerText;
+    
+    // Tạo lời nhắn gửi đến Admin Zalo
+    const message = `Xin chào Admin, tôi vừa chuyển khoản thực hiện nạp tiền:\n- Tài khoản: ${currentUser}\n- Số tiền nạp: ${amount.toLocaleString()}đ\n- Nội dung chuyển khoản: ${memo}\nVui lòng kiểm tra tài khoản ngân hàng và duyệt cộng tiền giúp tôi!`;
+    
+    alert(`📢 Hệ thống đang chuyển hướng bạn sang Zalo của Admin kèm biên lai gửi tin nhắn duyệt nạp ${amount.toLocaleString()}đ.`);
+    
+    // Tự động mở Zalo Chat của bạn và copy/gửi kèm lời nhắn thông tin nạp tiền thật
+    window.open(`${ADMIN_ZALO_LINK}?text=${encodeURIComponent(message)}`, '_blank');
+});
+
+/* ĐĂNG NHẬP HỆ THỐNG */
+loginForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    currentUser = document.getElementById('username').value;
+    submitBtn.innerText = 'Đang đồng bộ...';
+    submitBtn.disabled = true;
+
+    setTimeout(() => {
+        loginPage.style.display = 'none';
+        shopPage.style.display = 'block';
+        
+        updateBalance();
+        renderPurchasedAccounts();
+        generateQR(); // Tạo mã QR ban đầu dựa theo tên thành viên
+
+        addNotify(`<b>👤 Hệ thống</b><br>User <b>${currentUser}</b> đăng nhập thành công.`);
+    }, 800);
+});
+
+/* KHO DATABASE TÀI KHOẢN GỐC CẤP PHÁT */
+const accountsData = {
+    "CapCut Pro": { user: "capcut_vip_long@gmail.com", pass: "longdragon2026", price: 50000 },
+    
+};
+
+/* XỬ LÝ MUA ACC & LƯU TRỮ TRÌNH DUYỆT */
+const buyBtns = document.querySelectorAll('.buy-btn');
+
+buyBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const card = btn.closest('.card');
+        const productName = card.querySelector('h2').innerText;
+        const data = accountsData[productName];
+
+        if(balance < data.price){
+            alert('❌ Ví điện tử không đủ tiền! Bạn vui lòng kéo xuống mục Nạp tiền quét mã QR chuyển khoản thật để mua.');
+            return;
+        }
+
+        balance -= data.price;
+        updateBalance();
+
+        let purchased = JSON.parse(localStorage.getItem('purchased_accs')) || [];
+        const orderTime = new Date().toLocaleString('vi-VN');
+        purchased.push({
+            name: productName,
+            user: data.user,
+            pass: data.pass,
+            time: orderTime
+        });
+        localStorage.setItem('purchased_accs', JSON.stringify(purchased));
+
+        renderPurchasedAccounts();
+
+        addNotify(`<b>🛒 Mua hàng thành công</b><br>Sản phẩm: ${productName}<br>Giá: ${data.price.toLocaleString()}đ`);
+        alert('🎉 Giao dịch thành công! Vui lòng cuộn xuống dưới cùng xem mục Lịch sử đơn hàng để lấy thông tin tài khoản.');
+    });
+});
+
+/* XUẤT LỊCH SỬ ĐƠN ĐÃ THANH TOÁN */
+function renderPurchasedAccounts() {
+    let purchased = JSON.parse(localStorage.getItem('purchased_accs')) || [];
+    if(purchased.length === 0) {
+        accountList.innerHTML = `<p style="color:#aaa; text-align:center; width:100%; padding: 20px;">Bạn chưa thực hiện giao dịch nào.</p>`;
+        return;
+    }
+
+    accountList.innerHTML = '';
+    purchased.forEach(acc => {
+        accountList.innerHTML += `
+        <div class="card" style="border: 1px solid rgba(0, 198, 255, 0.45);">
+            <div class="card-content">
+                <h2 style="color:#00c6ff;">${acc.name}</h2>
+                <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:8px; margin:10px 0; font-size:13px;">
+                    <p style="margin-bottom:6px;">➔ <b>Tài khoản:</b> <span style="color:#fff;">${acc.user}</span></p>
+                    <p>➔ <b>Mật khẩu:</b> <span style="color:#fff;">${acc.pass}</span></p>
+                </div>
+                <span class="price" style="font-size:12px; margin-bottom:0; color:#2ecc71; font-weight:400;">✓ Đã xuất kho: ${acc.time}</span>
+            </div>
+        </div>
+        `;
+    });
+}
+</script>
+
+<script>
+document.querySelectorAll('.buy-btn').forEach(b=>{
+ b.addEventListener('click',e=>{
+   e.stopImmediatePropagation();
+   document.getElementById('purchaseModal').style.display='flex';
+ });
+});
+document.getElementById('payNowBtn').onclick=function(){
+ document.getElementById('purchaseModal').style.display='none';
+ alert('Thanh toán thành công');
+}
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBSfTeDKbh-qLifq0YhBXfes20Kgo7jzkY",
+  authDomain: "longbkhung99.firebaseapp.com",
+  projectId: "longbkhung99",
+  storageBucket: "longbkhung99.firebasestorage.app",
+  messagingSenderId: "333030542756",
+  appId: "1:333030542756:web:e4c099f8259ab91e3d0531",
+  measurementId: "G-HBE63LQVT9"
+};
+
+window.firebaseApp = initializeApp(firebaseConfig);
+window.firebaseAuth = getAuth(firebaseApp);
+window.db = getFirestore(firebaseApp);
+</script>
+
+
+<script>
+document.getElementById("loginCircleBtn").onclick=function(){
+ document.getElementById("loginPage").style.display="flex";
+};
+function closeLogin(){
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("shopPage").style.display = "block";
+}
+</script>
+</body>
+</html>
